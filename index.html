@@ -8,38 +8,88 @@
   </head>
   <body>
     <div id="app">
+      <label for="new-character">New Character</label>
+      <input
+        text="string"
+        v-model="newCharacter.name"
+        @keyup.enter="addNewCharacter"
+      />
+      <h2>List of characters</h2>
       <p v-if="characterList.length === 0">There are no characters</p>
-      <ul v-else-if="characterList.length % 2 === 0">
-        <li v-for="character in characterList">{{ character.name }}</li>
+      <ul v-else="characterList.length % 2 === 0">
+        <li
+          v-for="character in characterList"
+          v-on:click="addFavoriteCharacter(character)"
+        >
+          {{ character.name }}
+          <button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon icon-tabler icon-tabler-heart"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path
+                d="M19.5 12.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"
+              ></path>
+            </svg>
+          </button>
+        </li>
       </ul>
-      <p>
-        <span v-for="(character, index) in characterList"
-          >{{ character.name }}{{ index === characterList.length - 1 ? '' : ', '
-          }}
-        </span>
+      <h2>List of favorite character</h2>
+      <p v-if="favoriteCharacterList.length === 0">
+        You have no favorite characters
       </p>
-      <p v-else>There are odd characters!</p>
+      <ul v-else>
+        <li v-for="favCharacter in favoriteCharacterList">
+          {{ favCharacter.name }}
+        </li>
+      </ul>
+      <pre>{{newCharacter}}</pre>
     </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
       Vue.createApp({
         data: () => ({
+          newCharacter: {
+            name: '',
+          },
+          favoriteCharacterList: [],
           characterList: [
             {
-              name: 'Aang'
+              name: 'Aang',
             },
             {
-              name: 'Zuko'
+              name: 'Zuko',
             },
             {
-              name: 'Toph'
+              name: 'Toph',
             },
             {
-              name: 'Katara'
+              name: 'Katara',
+            },
+          ],
+        }),
+        methods: {
+          addFavoriteCharacter(character) {
+            if (this.favoriteCharacterList.includes(character)) {
+              return
             }
-          ]
-        })
+            this.favoriteCharacterList.push(character)
+          },
+          addNewCharacter() {
+            this.characterList.push(this.newCharacter)
+            this.newCharacter = {name: ''}
+          },
+        },
       }).mount('#app')
     </script>
   </body>
