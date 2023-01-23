@@ -6,5 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Playground — Complete Intro to Vue 3</title>
   </head>
-  <body></body>
+  <body>
+    <div id="app">
+      <p v-if="message.length % 2 === 0">Even: {{message}}</p>
+      <p v-else>Odd: {{message}}</p>
+      <ul>
+        <li v-for="user in listOfUsers">
+          {{user.name}} is {{user.age}} years old
+        </li>
+      </ul>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      const {createApp} = Vue
+      const app = createApp({
+        data() {
+          return {
+            message: 'Hello World',
+            listOfUsers: [
+              {name: 'Joe', age: 20},
+              {name: 'Jane', age: 25},
+              {name: 'Jack', age: 30},
+            ],
+          }
+        },
+      })
+      app.mount('#app')
+    </script>
+  </body>
 </html>
